@@ -76,21 +76,28 @@ public class Prestamo {
     //Sin la fecha de inicio para que se cree sola
     public Prestamo(Usuario usuario, Ejemplar ejemplar) {
         //Usar el método de si está penalizado para ver si se puede hacer un préstamo o no
-        if (Validaciones.puedeMásPrestamos(usuario)) {
+        if (Validaciones.puedeMásPrestamos(usuario) && ejemplar.getEstado()==Ejemplar.EstadoEjemplar.Disponible) {
             this.usuario = usuario;
             this.ejemplar = ejemplar;
             this.fechaInicio = LocalDate.now();
             this.fechaDevolucion = getFechaDevolucion();
+            //Si se hace el préstamo que se cambie el estado a prestado
+            ejemplar.setEstado(Ejemplar.EstadoEjemplar.Prestado);
+        }else {
+            System.out.println("No se pudo realizar el prestamo");
         }
     }
     //Con fecha de devolución por si el usuario no devuelve el libro, que se pueda actualizar la fecha y se le penalice 15 días
     //Con la fecha de inicio por si se quiere poner manual
     public Prestamo(Usuario usuario, Ejemplar ejemplar, LocalDate fechaInicio, LocalDate fechaDevolucion) {
-        if(Validaciones.puedeMásPrestamos(usuario)) {
+        if(Validaciones.puedeMásPrestamos(usuario) && ejemplar.getEstado()==Ejemplar.EstadoEjemplar.Disponible) {
             this.usuario = usuario;
             this.ejemplar = ejemplar;
             this.fechaInicio = fechaInicio;
             this.fechaDevolucion = fechaDevolucion;
+            ejemplar.setEstado(Ejemplar.EstadoEjemplar.Prestado);
+        }else {
+            System.out.println("No se pudo realizar el prestamo");
         }
     }
 

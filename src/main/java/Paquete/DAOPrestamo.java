@@ -51,6 +51,7 @@ public class DAOPrestamo {
         em.getTransaction().commit();
         em.close();
     }
+
     //Borrar
     public void deletePrestamo(Prestamo prestamo) {
         EntityManager em = emf.createEntityManager();

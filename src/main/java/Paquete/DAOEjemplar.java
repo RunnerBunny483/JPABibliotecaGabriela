@@ -52,6 +52,23 @@ public class DAOEjemplar {
         em.getTransaction().commit();
         em.close();
     }
+
+    //Actualizar solo el estado del péstamo
+    public void actualizarSoloEstado(int id, Ejemplar.EstadoEjemplar estadoActualizado) {
+        EntityManager em = emf.createEntityManager();
+        try {
+            em.getTransaction().begin();
+            Ejemplar ejemplar = em.find(Ejemplar.class, id);
+            ejemplar.setEstado(estadoActualizado);
+            em.merge(ejemplar);
+            em.getTransaction().commit();
+        } catch (NoResultException e) {
+            throw new NoResultException("No existe un ejemplar con el id " + id);
+        } finally {
+            em.close();
+        }
+    }
+
     //Borrar
     public void deleteEjemplar(Ejemplar ejemplar) {
         EntityManager em = emf.createEntityManager();

@@ -50,7 +50,9 @@ public class Usuario {
     }
 
     public void setDni(String dni) {
-        this.dni = dni;
+        if (Validaciones.validarDNI(dni)) {
+            this.dni = dni;
+        }
     }
 
     public String getNombre() {
@@ -98,12 +100,14 @@ public class Usuario {
     //Constructores
     //Sin id porque es autoincrement
     public Usuario(String dni, String nombre, String email, String password, TipoUsuario tipo, LocalDate penalizacionHasta) {
-        this.dni = dni;
-        this.nombre = nombre;
-        this.email = email;
-        this.password = password;
-        this.tipo = tipo;
-        this.penalizacionHasta = penalizacionHasta;
+        if (Validaciones.validarDNI(dni)) {
+            this.dni = dni;
+            this.nombre = nombre;
+            this.email = email;
+            this.password = password;
+            this.tipo = tipo;
+            this.penalizacionHasta = penalizacionHasta;
+        }
     }
     //vacío
     public Usuario() {

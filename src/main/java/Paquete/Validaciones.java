@@ -11,8 +11,19 @@ public class Validaciones {
 
     //Que el estado penalizado de un usuario pase a estar activo con una fecha de 15 días de penalización desde
     //que devuelve el libro y no pueda hacer más préstamos hasta esa fecha
-    public static void calcularFechaPenalizacion(Usuario usuario, LocalDate fechaDevolucionReal){
-    usuario.setPenalizacionHasta(fechaDevolucionReal.plusDays(15));
+    public static void calcularFechaPenalizacion(Usuario usuario, List<Prestamo> listaPrestamos){
+        int diasPenalizacion = 0;
+        for (Prestamo prestamo : listaPrestamos) {
+            //si la fecha de devolución es distinta de nula o se pasa de los 15 días es que tiene 15 días de penalización por cada vez que ocurra
+            if(prestamo.getFechaDevolucion()!=null&& prestamo.getFechaDevolucion().isAfter(prestamo.getFechaInicio().plusDays(15))){
+                diasPenalizacion+=15;
+            }
+        }
+        //Si tiene algún día de penalización....
+        if(diasPenalizacion>0){
+            //...Se le ponen los días de penalización extra
+            usuario.setPenalizacionHasta(LocalDate.now().plusDays(diasPenalizacion));
+        }
     }
 
     //Saber si el usuario está penalizado
@@ -61,6 +72,31 @@ public class Validaciones {
         return caluclarDigitoControl == digitoControl;
     }
     //Validación del DNI
+    public static boolean validarDNI(String dni) {
+        String regex = "\\d{8}[A-Za-z]";
+
+        if (dni == null || !dni.matches(regex)) {
+            return false;
+        }
+
+        String numeros = dni.substring(0, 8);
+        char letra = dni.charAt(8);
+
+        char letraCalculada = calcularLetraDNI(numeros);
+
+        return letra == letraCalculada;
+    }
+
+    private static char calcularLetraDNI(String numeros) {
+       int numero = Integer.parseInt(numeros);
+
+       int resto = numero % 23;
+
+       char[] letras = {'T', 'R', 'W', 'A', 'G', 'M', 'Y', 'F', 'P', 'D', 'X', 'B', 'N', 'J', 'Z', 'S', 'Q', 'V', 'H', 'L', 'C', 'K', 'E'};
+
+       return letras[resto];
+    }
+
     //Contar stock disponible contando estado disponible
     public static int calcularStockDisponible(List<Ejemplar> listaEjemplares){
         int contadorDisponibles=0;
@@ -75,4 +111,28 @@ public class Validaciones {
         return contadorDisponibles;
     }
 
+    //Validar que un usuario no puede tener más de 3 préstamos activos
+    public static boolean limiteTresPrestamos(int usuarioId, List<Prestamo> listaPrestamosUsuario) {
+        int prestamosUsuario=0;
+        boolean usuarioExiste=false;
+        for (Prestamo prestamo: listaPrestamosUsuario){
+            if(prestamo.getUsuario().getId()==usuarioId){
+                usuarioExiste=true;
+                boolean prestamoEnProceso = prestamo.getFechaDevolucion()==null || prestamo.getFechaDevolucion().isBefore(prestamo.getFechaInicio().plusDays(15));
+                boolean noPenalizado = !isPenalizado(prestamo.getUsuario());
+                if(prestamoEnProceso && noPenalizado){
+                    prestamosUsuario++;
+                }
+            }
+        }
+        if (usuarioExiste == false) {
+            System.out.println("El usuario con id "+usuarioId+" no existe");
+            return false;
+        }
+            if (prestamosUsuario>=3){
+                System.out.println("El usuario con id "+usuarioId+" ya tiene 3 préstamos activos");
+                return false;
+            }
+        return true;
+    }
 }
