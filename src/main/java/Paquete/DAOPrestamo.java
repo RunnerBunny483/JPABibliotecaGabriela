@@ -35,6 +35,23 @@ public class DAOPrestamo {
             em.close();
         }
     }
+
+    // Obtener datos de préstamo y ejemplar por usuario
+    public List<Prestamo> readPrestamosPorUsuarioId(int usuarioId) {
+        EntityManager em = emf.createEntityManager();
+        try {
+            Query q = em.createQuery(
+                    "SELECT p FROM Prestamo p JOIN FETCH p.ejemplar e WHERE p.usuario.id = :usuarioId", Prestamo.class
+            );
+            q.setParameter("usuarioId", usuarioId);
+            return q.getResultList();
+        } catch (NoResultException e) {
+            throw new NoResultException("El usuario con ID " + usuarioId + " no tiene préstamos registrados.");
+        } finally {
+            em.close();
+        }
+    }
+
     //Crear
     public void insertPrestamo(Prestamo prestamo) {
        EntityManager em = emf.createEntityManager();

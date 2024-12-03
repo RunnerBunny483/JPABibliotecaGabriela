@@ -2,6 +2,7 @@ package Paquete;
 
 import jakarta.persistence.*;
 
+import java.util.Collections;
 import java.util.List;
 
 public class DAOEjemplar {
@@ -35,6 +36,23 @@ public class DAOEjemplar {
             em.close();
         }
     }
+
+    //Obtener datos de préstamo y ejemplar por usuario
+    public List<Ejemplar> readEjemplaresPorUsuarioId(int usuarioId) {
+        EntityManager em = emf.createEntityManager();
+        try {
+            Query q = em.createQuery(
+                    "SELECT e FROM Prestamo p JOIN p.ejemplar e WHERE p.usuario.id = :usuarioId", Ejemplar.class
+            );
+            q.setParameter("usuarioId", usuarioId);
+            return q.getResultList();
+        } catch (NoResultException e) {
+            throw new NoResultException("El usuario con ID " + usuarioId + " no tiene ejemplares prestados");
+        } finally {
+            em.close();
+        }
+    }
+
 
     //Crear
     public void insertEjemplar(Ejemplar ejemplar) {
