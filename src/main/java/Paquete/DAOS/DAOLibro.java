@@ -23,15 +23,15 @@ public class DAOLibro {
         }
     }
     //Obtener un libros por id
-    public Libro readLibroPorID(int id) {
+    public Libro readLibroPorISBN(String isbn) {
         EntityManager em = emf.createEntityManager();
         try {
-            Query q = em.createQuery("SELECT l FROM Libro l WHERE l.id = :id");
-            q.setParameter("id", id);
+            Query q = em.createQuery("SELECT l FROM Libro l WHERE l.isbn = :isbn");
+            q.setParameter("isbn", isbn);
             return (Libro) q.getSingleResult();
         }catch (NoResultException e) {
             System.out.println("Libro no encontrado");
-            throw new NoResultException("No existe un libro con el id " + id);
+            throw new NoResultException("No existe un libro con el isbn " + isbn);
         }finally {
             em.close();
         }

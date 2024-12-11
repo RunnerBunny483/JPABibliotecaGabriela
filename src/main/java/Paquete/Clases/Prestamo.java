@@ -67,7 +67,7 @@ public class Prestamo {
         return Validaciones.calcularFechaDevolucion(fechaInicio);
     }
 
-    public void setFechaDevolucion() {
+    public void setFechaDevolucion(LocalDate fechaDevolucion) {
         this.fechaDevolucion = Validaciones.calcularFechaDevolucion(this.fechaInicio);
     }
 
