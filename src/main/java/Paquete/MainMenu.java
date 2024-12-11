@@ -1,8 +1,15 @@
 package Paquete;
 
+import Paquete.Clases.Ejemplar;
+import Paquete.Clases.Libro;
+import Paquete.Clases.Prestamo;
+import Paquete.Clases.Usuario;
+import Paquete.DAOS.DAOEjemplar;
+import Paquete.DAOS.DAOLibro;
+import Paquete.DAOS.DAOPrestamo;
+import Paquete.DAOS.DAOUsuario;
 import jakarta.persistence.NoResultException;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 

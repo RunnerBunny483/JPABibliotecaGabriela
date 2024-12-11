@@ -1,5 +1,6 @@
-package Paquete;
+package Paquete.DAOS;
 
+import Paquete.Clases.Libro;
 import jakarta.persistence.*;
 
 import java.util.List;
@@ -52,9 +53,9 @@ public class DAOLibro {
         em.close();
     }
     //Borrar
-    public void deleteLibro(int id) {
+    public void deleteLibro(String isbn) {
         EntityManager em = emf.createEntityManager();
-        Libro libro = em.find(Libro.class, id);
+        Libro libro = em.find(Libro.class, isbn);
         em.getTransaction().begin();
         em.remove(libro);
         em.getTransaction().commit();

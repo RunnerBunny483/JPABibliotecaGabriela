@@ -1,8 +1,8 @@
-package Paquete;
+package Paquete.DAOS;
 
+import Paquete.Clases.Ejemplar;
 import jakarta.persistence.*;
 
-import java.util.Collections;
 import java.util.List;
 
 public class DAOEjemplar {

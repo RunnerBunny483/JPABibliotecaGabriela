@@ -1,4 +1,4 @@
-package Paquete;
+package Paquete.Clases;
 
 import jakarta.persistence.*;
 import org.hibernate.annotations.ColumnDefault;
@@ -16,7 +16,7 @@ public class Ejemplar {
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "isbn", nullable = false)
-    private Paquete.Libro isbn;
+    private Libro isbn;
 
 
     //Mejor hacer enum
@@ -38,11 +38,11 @@ public class Ejemplar {
         this.id = id;
     }
 
-    public Paquete.Libro getIsbn() {
+    public Libro getIsbn() {
         return isbn;
     }
 
-    public void setIsbn(Paquete.Libro isbn) {
+    public void setIsbn(Libro isbn) {
         this.isbn = isbn;
     }
 

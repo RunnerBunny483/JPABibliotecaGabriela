@@ -1,5 +1,6 @@
-package Paquete;
+package Paquete.DAOS;
 
+import Paquete.Clases.Prestamo;
 import jakarta.persistence.*;
 
 import java.util.List;

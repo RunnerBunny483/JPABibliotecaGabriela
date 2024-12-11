@@ -1,6 +1,11 @@
 package Paquete;
 
-import java.time.LocalDate;
+import Paquete.Clases.Ejemplar;
+import Paquete.DAOS.DAOEjemplar;
+import Paquete.DAOS.DAOLibro;
+import Paquete.DAOS.DAOPrestamo;
+import Paquete.DAOS.DAOUsuario;
+
 import java.util.List;
 
 public class Pruebas {

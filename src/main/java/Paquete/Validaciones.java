@@ -1,5 +1,9 @@
 package Paquete;
 
+import Paquete.Clases.Ejemplar;
+import Paquete.Clases.Prestamo;
+import Paquete.Clases.Usuario;
+
 import java.time.LocalDate;
 import java.util.List;
 
